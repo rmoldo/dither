@@ -7,10 +7,9 @@ class Dither {
  public:
   Dither (const std::string& sourceImage);
 
-  void dither(); // does the dithering
+  void dither(); // does the dithering effect
 
   void saveImage(const std::string& outputImage);
-  void change ();
 
  private:
   cv::Mat image;
