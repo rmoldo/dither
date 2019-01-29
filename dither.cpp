@@ -29,13 +29,32 @@ cv::Vec3b computeError (const cv::Vec3b& _originalColor, const cv::Vec3b& _newCo
   return error;
 }
 
+void setPixel (cv::Mat& img, const cv::Vec3b& error, int x, int y, int ammount) {
+  cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(x, y));
+
+  color[0] = color[0] + error[0] * ammount/16.0;
+  color[1] = color[1] + error[1] * ammount/16.0;
+  color[2] = color[2] + error[2] * ammount/16.0;
+
+  img.at<cv::Vec3b>(cv::Point(x, y)) = color;
+}
+
+// For more information: https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
+
 void Dither::dither() {
-  for (int y = 0; y < image.rows; ++y)
-    for (int x = 0; x < image.cols; ++x) {
-      cv::Vec3b color = image.at<cv::Vec3b>(cv::Point(x,y));
+  for (int y = 0; y < image.rows - 1; ++y)
+    for (int x = 1; x < image.cols - 1; ++x) {
+      cv::Vec3b color = image.at<cv::Vec3b>(cv::Point(x, y));
+      cv::Vec3b original = color;
 
-      quantize(color,6);
+      quantize(color,1);
+      cv::Vec3b error = computeError(original, color);
 
-      image.at<cv::Vec3b>(cv::Point(x,y)) = color;
+      setPixel(image, error, x + 1, y    , 7);
+      setPixel(image, error, x - 1, y + 1, 3);
+      setPixel(image, error, x    , y + 1, 5);
+      setPixel(image, error, x + 1, y + 1, 1);
+
+      image.at<cv::Vec3b>(cv::Point(x, y)) = color;
     }
 }
