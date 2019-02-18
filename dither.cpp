@@ -26,9 +26,9 @@ cv::Vec3b computeError (const cv::Vec3b& _originalColor, const cv::Vec3b& _newCo
 void setPixel (cv::Mat& img, const cv::Vec3b& error, int x, int y, int ammount) {
   cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(x, y));
 
-  color[0] = color[0] + error[0] * ammount/16.0;
-  color[1] = color[1] + error[1] * ammount/16.0;
-  color[2] = color[2] + error[2] * ammount/16.0;
+  color[0] = color[0] + error[0] * ammount / 16.0;
+  color[1] = color[1] + error[1] * ammount / 16.0;
+  color[2] = color[2] + error[2] * ammount / 16.0;
 
   img.at<cv::Vec3b>(cv::Point(x, y)) = color;
 }
