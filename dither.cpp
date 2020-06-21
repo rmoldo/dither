@@ -2,32 +2,32 @@
 #include <assert.h>
 #include <cmath>
 
-Dither::Dither (const std::string& sourceImage)
+Dither::Dither(const std::string& sourceImage)
 {
         image = cv::imread(sourceImage, 1);
 
         assert(image.data);
 }
 
-void Dither::saveImage (const std::string &outputImage)
+void Dither::saveImage(const std::string &outputImage)
 {
         cv::imwrite(outputImage, image);
 }
 
 /* Quantize the pixel RGB values by a factor */
-void quantize (cv::Vec3b& color, int factor)
+void quantize(cv::Vec3b& color, int factor)
 {
         color[0] = std::round(factor * (color[0] / 255.0f)) * (255 / factor);
         color[1] = std::round(factor * (color[1] / 255.0f)) * (255 / factor);
         color[2] = std::round(factor * (color[2] / 255.0f)) * (255 / factor);
 }
 
-cv::Vec3b computeError (const cv::Vec3b &originalColor, const cv::Vec3b &newColor)
+cv::Vec3b computeError(const cv::Vec3b &originalColor, const cv::Vec3b &newColor)
 {
         return originalColor - newColor;
 }
 
-void setPixel (cv::Mat &img, const cv::Vec3b &error, int x, int y, int ammount) {
+void setPixel(cv::Mat &img, const cv::Vec3b &error, int x, int y, int ammount) {
         cv::Vec3b color = img.at<cv::Vec3b>(cv::Point(x, y));
 
         color[0] = color[0] + error[0] * ammount / 16.0f;

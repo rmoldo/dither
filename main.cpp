@@ -29,8 +29,7 @@ int main(int argc, char **argv)
                 return EXIT_FAILURE;
         }
 
-        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
-                                                    SDL_RENDERER_ACCELERATED);
+        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
         if (renderer == NULL) {
                 SDL_DestroyWindow(window);
@@ -53,6 +52,7 @@ int main(int argc, char **argv)
         };
 
         Dither dither {argv[1]};
+
         dither.dither();
         dither.saveImage("out.jpeg");
 
@@ -71,10 +71,11 @@ int main(int argc, char **argv)
                 switch (e.type) {
                 case SDL_KEYDOWN:
                         switch (e.key.keysym.sym) {
-                        case SDLK_ESCAPE:
+                        case SDLK_ESCAPE: case SDLK_q:
                                 is_running = 0;
                                 break;
-                        break;
+                        default:
+                                break;
                         }
                 }
 

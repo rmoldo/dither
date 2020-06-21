@@ -6,10 +6,10 @@
 
 class Dither {
 public:
-        Dither (const std::string& sourceImage);
+        Dither(const std::string &sourceImage);
 
         void dither();
-        void saveImage(const std::string& outputImage);
+        void saveImage(const std::string &outputImage);
 
 private:
         cv::Mat image;
