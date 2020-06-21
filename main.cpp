@@ -3,7 +3,9 @@
 #include <SDL2/SDL_image.h>
 
 #include "dither.h"
-#include "defs.h"
+
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
 
 int main(int argc, char **argv)
 {
